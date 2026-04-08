@@ -1,36 +1,3 @@
-// let cityInput = document.getElementById("city")
-// let submitBtn = document.getElementById("submitBtn")
-
-// submitBtn.addEventListener("click", getWeather)
-
-// // Get Weather Report
-
-// function getWeather() {
-//     let city = cityInput.value
-//     let apiKey = "7287bcfea75d1ed3c3ba71dca9a2aee3"
-//     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
-
-//     fetch(url
-//     ).then(response => response.json()
-//     ).then(data => {
-//         console.log(data)
-//         let temperature = data.main.temp - 273.15
-//         let weather = data.weather[0].main
-//         let cityName = data.name
-//         let humidity = data.main.humidity
-
-//         // Send Report to HTML
-
-        
-
-//         alert(`Temperature: ${temperature.toFixed(2)}°C\nWeather: ${weather}\nCity: ${cityName}\nHumidity: ${humidity}%`)
-//     }).catch(error => {
-//         console.error("Error fetching weather data:", error)
-//         alert("Failed to fetch weather data. Please try again.")
-//     })
-// }
-
-
 // ─────────────────────────────────────────
 //  Skycast — Weather App JS
 // ─────────────────────────────────────────
@@ -93,9 +60,13 @@ function updateDisplayTemp() {
 }
 
 // ── Event Listeners ──
-submitBtn.addEventListener("click", handleSearch);
-cityInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") handleSearch();
+weatherForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  handleSearch();
+});
+submitBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  handleSearch();
 });
 
 // ── Main Handler ──
@@ -181,45 +152,22 @@ function showResult() {
 
 // ── Generate AI Insight ──
 async function generateInsight(data) {
-  const tempC = (data.main.temp - 273.15).toFixed(1);
-  const feelsC = (data.main.feels_like - 273.15).toFixed(1);
-  const condition = data.weather[0].description;
-  const humidity = data.main.humidity;
-  const windKmh = (data.wind.speed * 3.6).toFixed(1);
-  const city = data.name;
-
   // Set loading state
   insightText.textContent = "";
   insightText.classList.add("loading");
 
-  const prompt = `You are a weather analyst. Write a 2-sentence, conversational summary for the current weather in ${city}:
-- Temperature: ${tempC}°C (feels like ${feelsC}°C)
-- Condition: ${condition}
-- Humidity: ${humidity}%
-- Wind: ${windKmh} km/h
-
-Include what the weather actually feels like to be outside and a practical tip (what to wear, bring, etc.). Keep it friendly and under 50 words. No bullet points.`;
-
+  // Since this is a client-side application, calling AI APIs directly
+  // is restricted due to CORS and security. We use the robust fallback system
+  // to provide immediate weather insights.
+  
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
-
-    const result = await response.json();
+    // Artificial small delay for aesthetic "thinking" feel
+    await new Promise(resolve => setTimeout(resolve, 600));
+    
     insightText.classList.remove("loading");
-
-    if (result.content && result.content[0]) {
-      typewriter(insightText, result.content[0].text);
-    } else {
-      insightText.textContent = buildFallbackInsight(data);
-    }
-  } catch {
+    const tip = buildFallbackInsight(data);
+    typewriter(insightText, tip);
+  } catch (err) {
     insightText.classList.remove("loading");
     insightText.textContent = buildFallbackInsight(data);
   }
