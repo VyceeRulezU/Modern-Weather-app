@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skycast — Weather</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <div class="noise"></div>
+
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">Skycast</span>
+      </div>
+      <div class="header-tag">Live Weather Intelligence</div>
+    </header>
+
+    <main class="main">
+
+      <!-- Search Section -->
+      <section class="search-section">
+        <div class="search-eyebrow">Where are you?</div>
+        <h1 class="search-headline">Get the forecast<br/><em>for any city.</em></h1>
+
+        <form class="search-form" id="weatherForm">
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <input
+              type="text"
+              name="city"
+              id="city"
+              class="city-input"
+              placeholder="e.g. Tokyo, Lagos, New York…"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button id="submitBtn" type="button" class="submit-btn" aria-label="Get weather report">
+              <span class="btn-label">Get Report</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+          <div class="error-msg" id="errorMsg" role="alert" aria-live="polite"></div>
+        </form>
+      </section>
+
+      <!-- Weather Card (hidden until result) -->
+      <section class="result-section" id="resultSection" aria-live="polite">
+
+        <div class="weather-card" id="weatherCard">
+
+          <!-- Card Header -->
+          <div class="card-header">
+            <div class="card-location">
+              <span class="card-city" id="cardCity">—</span>
+              <span class="card-country" id="cardCountry"></span>
+            </div>
+            <div class="card-time" id="cardTime"></div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="card-left">
+              <div class="weather-icon-wrap" id="weatherIconWrap">
+                <div class="weather-icon" id="weatherIcon"></div>
+              </div>
+              <div class="card-condition" id="cardCondition">—</div>
+            </div>
+            <div class="card-right">
+              <div class="temp-display">
+                <span class="temp-value" id="tempValue">—</span>
+                <div class="temp-units">
+                  <button class="unit-btn active" id="celsiusBtn">°C</button>
+                  <button class="unit-btn" id="fahrenheitBtn">°F</button>
+                </div>
+              </div>
+              <div class="temp-feel">Feels like <span id="feelsLike">—</span></div>
+            </div>
+          </div>
+
+          <!-- Stats Row -->
+          <div class="stats-row">
+            <div class="stat-item">
+              <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2a7 7 0 017 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 017-7z"/>
+              </svg>
+              <span class="stat-label">Humidity</span>
+              <span class="stat-value" id="statHumidity">—</span>
+            </div>
+            <div class="stat-item">
+              <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/>
+              </svg>
+              <span class="stat-label">Wind</span>
+              <span class="stat-value" id="statWind">—</span>
+            </div>
+            <div class="stat-item">
+              <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+              </svg>
+              <span class="stat-label">Visibility</span>
+              <span class="stat-value" id="statVisibility">—</span>
+            </div>
+            <div class="stat-item">
+              <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+              </svg>
+              <span class="stat-label">Pressure</span>
+              <span class="stat-value" id="statPressure">—</span>
+            </div>
+          </div>
+
+          <!-- AI Insight -->
+          <div class="insight-block" id="insightBlock">
+            <div class="insight-header">
+              <span class="insight-badge">◈ AI Insight</span>
+            </div>
+            <p class="insight-text" id="insightText">Generating weather summary…</p>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+      <div class="loader">
+        <div class="loader-ring"></div>
+        <span class="loader-label">Reading the sky…</span>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
