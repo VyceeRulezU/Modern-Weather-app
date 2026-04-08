@@ -4,29 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skycast — Weather</title>
+    <meta name="description" content="Simple weather app. Search any city to get the current forecast." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
 
-    <div class="noise"></div>
-
     <header class="header">
       <div class="logo">
-        <span class="logo-icon">◈</span>
+        <span class="logo-icon">🌤</span>
         <span class="logo-text">Skycast</span>
       </div>
-      <div class="header-tag">Live Weather Intelligence</div>
+      <div class="header-tag">Weather forecast</div>
     </header>
 
     <main class="main">
 
       <!-- Search Section -->
       <section class="search-section">
-        <div class="search-eyebrow">Where are you?</div>
-        <h1 class="search-headline">Get the forecast<br/><em>for any city.</em></h1>
+        <div class="search-eyebrow">Live weather</div>
+        <h1 class="search-headline">Get the forecast<br><em>for any city.</em></h1>
 
         <form class="search-form" id="weatherForm">
           <div class="input-wrap">
@@ -44,7 +43,7 @@
               spellcheck="false"
             />
             <button id="submitBtn" type="button" class="submit-btn" aria-label="Get weather report">
-              <span class="btn-label">Get Report</span>
+              <span class="btn-label">Search</span>
               <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
@@ -120,14 +119,6 @@
             </div>
           </div>
 
-          <!-- AI Insight -->
-          <div class="insight-block" id="insightBlock">
-            <div class="insight-header">
-              <span class="insight-badge">◈ AI Insight</span>
-            </div>
-            <p class="insight-text" id="insightText">Generating weather summary…</p>
-          </div>
-
         </div>
 
       </section>
@@ -138,7 +129,7 @@
     <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
       <div class="loader">
         <div class="loader-ring"></div>
-        <span class="loader-label">Reading the sky…</span>
+        <span class="loader-label">Fetching weather…</span>
       </div>
     </div>
 
